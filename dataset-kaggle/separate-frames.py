@@ -10,12 +10,13 @@ import cv2
 
 TEST_PROPORTION = 0.3
 
-input_dir         = './kaggle-dataset-6classes'
-output_videos_dir = './kaggle-dataset-6classes-preprocessed/videos'
-output_frames_dir = './kaggle-dataset-6classes-preprocessed/frames'
+input_dir = r'C:\Users\USER\PycharmProjects\LavadoManos\dataset-kaggle'
+output_videos_dir = r'C:\Users\USER\PycharmProjects\LavadoManos\kaggle-dataset-6classes-preprocessed\videos'
+output_frames_dir = r'C:\Users\USER\PycharmProjects\LavadoManos\kaggle-dataset-6classes-preprocessed\frames'
 
 N_CLASSES = 7
-subdirs = [str(i) for i in range(N_CLASSES)]
+subdirs = [f"class_{i}" for i in range(N_CLASSES)]
+
 
 
 def mk(directory):
@@ -51,13 +52,13 @@ def process_video(classdir, filename, target_subset):
    
 
 def main():
-    random.seed(123) # make it repeatable
+    random.seed(123)  # make it repeatable
 
     for movement in range(N_CLASSES):
-        mk(os.path.join(output_videos_dir, "test", str(movement)))
-        mk(os.path.join(output_videos_dir, "trainval", str(movement)))
-        mk(os.path.join(output_frames_dir, "test", str(movement)))
-        mk(os.path.join(output_frames_dir, "trainval", str(movement)))
+        mk(os.path.join(output_videos_dir, "test", f"class_{movement}"))
+        mk(os.path.join(output_videos_dir, "trainval", f"class_{movement}"))
+        mk(os.path.join(output_frames_dir, "test", f"class_{movement}"))
+        mk(os.path.join(output_frames_dir, "trainval", f"class_{movement}"))
 
     for classdir in subdirs:
         for filename in os.listdir(os.path.join(input_dir, classdir)):
@@ -68,6 +69,7 @@ def main():
             else:
                 target_subset = "trainval"
             process_video(classdir, filename, target_subset)
+
 
 if __name__ == "__main__":
     main()
